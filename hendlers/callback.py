@@ -7,7 +7,7 @@ import url_storage as storage
 
 router = Router()
 
-@router.callback_query(lambda callback: 'video' in callback.data or 'audio' in callback.data)
+@router.callback_query(lambda callback: 'video' in callback.data or 'audio' in callback.data or 'photo' in callback.data)
 async def format_sellection(callback: CallbackQuery, bot: Bot):
     storage.urls_storage = storage.load_urls_storage()
     action, url_id = callback.data.split("|")
@@ -23,4 +23,7 @@ async def format_sellection(callback: CallbackQuery, bot: Bot):
     elif action == "audio":
         await callback.answer("Начинаю загрузку аудио...")
         await download_and_send_media(bot, callback.message.chat.id, url, media_type="audio")
+    elif action == "photo":
+        await callback.answer("Фото юкланмоqда...")
+        await download_and_send_media(bot, callback.message.chat.id, url, media_type="photo")
         
